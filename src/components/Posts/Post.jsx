@@ -37,8 +37,10 @@ export const Post = ({ author, publishedAt, content }) => {
 
     
     function handleNewCommentChange(e) {
+        e.target.setCustomValidity("")
         setNewCommentText(e.target.value);
     }
+
 
     function deleteComment(commentToDelete) {
         const commentWithoutDeletedOne = comments.filter(comment => {
@@ -47,9 +49,16 @@ export const Post = ({ author, publishedAt, content }) => {
         setComments(commentWithoutDeletedOne);
 
     }
+
+    function handleNewCommentInvalid(e) {
+        e.target.setCustomValidity('Campo obrigatório!')
+    }
+
     // Author: {avatar_url: "", name: "", profissão: ""}
     // PublishedAt: Date
     // Content: String
+
+    const isNewCommentEmpty = newCommentText.length === 0;
 
 
     return(
@@ -93,10 +102,12 @@ export const Post = ({ author, publishedAt, content }) => {
                     placeholder="Deixe Seu comentário!"
                     value={newCommentText}
                     onChange={handleNewCommentChange}
+                    onInvalid={handleNewCommentInvalid}
+                    required
                 />
 
                 <footer >
-                    <button type="submit">Publicar</button>
+                    <button type="submit" disabled={isNewCommentEmpty} >Publicar</button>
                 </footer>
 
             </form>
